@@ -1,0 +1,6 @@
+@APIKeyAuthentication_Middleware_HostAddress = http://localhost:5019
+
+GET {{APIKeyAuthentication_Middleware_HostAddress}}/weatherforecast/weather
+Accept: application/json
+X-api-key: F0719DED81B74F34BD6E7B0EC14BC310
+###
