@@ -1,4 +1,4 @@
-# API Key Authentication
+# API Key Authentication PoC
 
 Authentication is the process of determining a user/service identity. Authentication can be done with: something you know, something you have, something you are. In the case of API key authentication - something you know. 
 
