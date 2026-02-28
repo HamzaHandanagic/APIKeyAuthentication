@@ -1,30 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace APIKeyAuthentication_AuthFilter.Authentication
+namespace APIKeyAuthentication_AuthFilter.Authentication;
+
+public class ApiKeyAuthFilter(IConfiguration configuration) : IAuthorizationFilter
 {
-    public class ApiKeyAuthFilter : IAuthorizationFilter
+    public void OnAuthorization(AuthorizationFilterContext context)
     {
-        private readonly IConfiguration _configuration;
-        public ApiKeyAuthFilter(IConfiguration configuration)
+        if (!context.HttpContext.Request.Headers.TryGetValue(AuthConstants.ApiKeyHeaderName, out var extractedApiKey))
         {
-            _configuration = configuration;
+            context.Result = new UnauthorizedObjectResult("API Key missing.");
+            return;
         }
 
-        public void OnAuthorization(AuthorizationFilterContext context)
+        var apiKey = configuration.GetValue<string>(AuthConstants.ApiKeySectionName);
+        if (string.IsNullOrEmpty(apiKey) || !apiKey.Equals(extractedApiKey))
         {
-            if (!context.HttpContext.Request.Headers.TryGetValue(AuthConstants.ApiKeyHeaderName, out var extractedApiKey))
-            {
-                context.Result = new UnauthorizedObjectResult("API Key missing.");
-                return;
-            }
-
-            var apiKey = _configuration.GetValue<string>(AuthConstants.ApiKeySectionName);
-            if (!apiKey.Equals(extractedApiKey))
-            {
-                context.Result = new UnauthorizedObjectResult("Invalid API Key.");
-                return;
-            }
+            context.Result = new UnauthorizedObjectResult("Invalid API Key.");
+            return;
         }
     }
 }

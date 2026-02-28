@@ -1,8 +1,7 @@
-﻿namespace APIKeyAuthentication_Middleware.Authentication
+﻿namespace APIKeyAuthentication_Middleware.Authentication;
+
+public static class AuthConstants
 {
-    public static class AuthConstants
-    {
-        public const string ApiKeySectionName = "Authentication:ApiKey";
-        public const string ApiKeyHeaderName = "x-api-key";
-    }
+    public const string ApiKeySectionName = "Authentication:ApiKey";
+    public const string ApiKeyHeaderName = "x-api-key";
 }
